@@ -1,0 +1,13 @@
+[Unit]
+Description=Forward TCP (bidirectional) according to template parameters
+After=network.target
+
+[Service]
+Type=simple
+User=nobody
+Group=nobody
+ExecStart=/bin/bash -c 'PARAM="%i"; /usr/bin/socat TCP-LISTEN:$${PARAM%%-.*},reuseaddr,fork TCP:$${PARAM##.*-}'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
